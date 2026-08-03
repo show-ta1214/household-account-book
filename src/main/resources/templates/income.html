@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>収入入力 | 家計簿</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            margin: 0;
+            padding: 32px 16px;
+            font-family: "Yu Gothic", "Meiryo", sans-serif;
+            color: #24332b;
+            background: #f4f7f2;
+        }
+
+        .income-card {
+            width: min(100%, 620px);
+            margin: 0 auto;
+            padding: 40px 36px;
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 12px 32px rgba(36, 51, 43, 0.12);
+        }
+
+        h1 {
+            margin: 0 0 8px;
+            font-size: 2rem;
+        }
+
+        .description {
+            margin: 0 0 32px;
+            color: #617066;
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #cbd5ce;
+            border-radius: 10px;
+            font: inherit;
+            background: #ffffff;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: 3px solid rgba(60, 146, 112, 0.2);
+            border-color: #3c9270;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 30px;
+        }
+
+        .button {
+            flex: 1;
+            padding: 14px 18px;
+            border: 0;
+            border-radius: 10px;
+            font: inherit;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .primary-button {
+            color: #ffffff;
+            background: #3c9270;
+        }
+
+        .back-button {
+            color: #3f5146;
+            background: #e8ede9;
+        }
+
+        @media (max-width: 520px) {
+            .income-card {
+                padding: 32px 22px;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+<main class="income-card">
+    <h1>収入入力</h1>
+    <p class="description">収入の内容を入力してください。</p>
+
+    <form>
+        <div class="form-group">
+            <label for="income-date">収入日</label>
+            <input id="income-date" name="incomeDate" type="date" required>
+        </div>
+
+        <div class="form-group">
+            <label for="category">カテゴリー</label>
+            <select id="category" name="category" required>
+                <option value="">選択してください</option>
+                <option value="salary">給与</option>
+                <option value="bonus">賞与</option>
+                <option value="side-job">副業</option>
+                <option value="investment">投資</option>
+                <option value="other">その他</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="amount">金額（円）</label>
+            <input id="amount" name="amount" type="number" min="1" step="1" placeholder="例：250000" required>
+        </div>
+
+        <div class="form-group">
+            <label for="memo">メモ</label>
+            <textarea id="memo" name="memo" maxlength="200" placeholder="例：8月分給与"></textarea>
+        </div>
+
+        <div class="actions">
+            <a class="button back-button" th:href="@{/}" href="/">ホームへ戻る</a>
+            <button class="button primary-button" type="button">収入を登録</button>
+        </div>
+    </form>
+</main>
+</body>
+</html>
