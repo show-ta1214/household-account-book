@@ -11,6 +11,7 @@ import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.flash;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
@@ -54,6 +55,11 @@ class IncomeControllerTest {
                         .param("amount", "250000")
                         .param("memo", "8月分給与"))
                 .andExpect(status().is3xxRedirection())
+                .andExpect(flash().attribute("incomeDto", org.hamcrest.Matchers.allOf(
+                        org.hamcrest.Matchers.hasProperty("incomeDate", org.hamcrest.Matchers.is(java.time.LocalDate.of(2026, 8, 4))),
+                        org.hamcrest.Matchers.hasProperty("category", org.hamcrest.Matchers.is("salary")),
+                        org.hamcrest.Matchers.hasProperty("amount", org.hamcrest.Matchers.is(250000)),
+                        org.hamcrest.Matchers.hasProperty("memo", org.hamcrest.Matchers.is("8月分給与")))))
                 .andExpect(redirectedUrl("/income/complete"));
     }
 

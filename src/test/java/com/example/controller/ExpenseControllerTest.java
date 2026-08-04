@@ -11,6 +11,7 @@ import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.flash;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
@@ -54,6 +55,11 @@ class ExpenseControllerTest {
                         .param("amount", "1200")
                         .param("memo", "スーパーで食材を購入"))
                 .andExpect(status().is3xxRedirection())
+                .andExpect(flash().attribute("expenseDto", org.hamcrest.Matchers.allOf(
+                        org.hamcrest.Matchers.hasProperty("expenseDate", org.hamcrest.Matchers.is(java.time.LocalDate.of(2026, 8, 4))),
+                        org.hamcrest.Matchers.hasProperty("category", org.hamcrest.Matchers.is("food")),
+                        org.hamcrest.Matchers.hasProperty("amount", org.hamcrest.Matchers.is(1200)),
+                        org.hamcrest.Matchers.hasProperty("memo", org.hamcrest.Matchers.is("スーパーで食材を購入")))))
                 .andExpect(redirectedUrl("/expenses/complete"));
     }
 

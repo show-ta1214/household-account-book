@@ -1,5 +1,6 @@
 package com.example.controller;
 
+import com.example.dto.IncomeDto;
 import com.example.form.IncomeForm;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -8,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class IncomeController {
@@ -22,10 +24,17 @@ public class IncomeController {
     public String validateIncome(
             @Valid @ModelAttribute("incomeForm") IncomeForm incomeForm,
             BindingResult bindingResult,
-            Model model) {
+            RedirectAttributes redirectAttributes) {
         if (bindingResult.hasErrors()) {
             return "income";
         }
+
+        IncomeDto incomeDto = new IncomeDto(
+                incomeForm.getIncomeDate(),
+                incomeForm.getCategory(),
+                incomeForm.getAmount(),
+                incomeForm.getMemo());
+        redirectAttributes.addFlashAttribute("incomeDto", incomeDto);
 
         return "redirect:/income/complete";
     }
