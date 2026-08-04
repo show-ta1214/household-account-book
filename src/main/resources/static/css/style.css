@@ -70,6 +70,12 @@ body {
     padding: 32px 16px;
 }
 
+.completion-page {
+    display: grid;
+    place-items: center;
+    padding: 32px 16px;
+}
+
 .income-card,
 .expense-card {
     width: min(100%, 620px);
@@ -78,6 +84,33 @@ body {
     background: #ffffff;
     border-radius: 20px;
     box-shadow: 0 12px 32px rgba(36, 51, 43, 0.12);
+}
+
+.completion-card {
+    width: min(100%, 620px);
+    padding: 48px 36px;
+    text-align: center;
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 12px 32px rgba(36, 51, 43, 0.12);
+}
+
+.completion-card h1 {
+    margin: 18px 0 8px;
+    font-size: 2rem;
+}
+
+.completion-icon {
+    display: grid;
+    width: 72px;
+    height: 72px;
+    margin: 0 auto;
+    place-items: center;
+    border-radius: 50%;
+    color: #ffffff;
+    background: #dc6b5d;
+    font-size: 2.5rem;
+    font-weight: bold;
 }
 
 .entry-page h1 {

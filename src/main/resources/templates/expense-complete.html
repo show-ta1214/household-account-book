@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>支出登録完了 | 家計簿</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" href="/css/style.css">
+</head>
+<body class="completion-page expense-page">
+<main class="completion-card">
+    <div class="completion-icon" aria-hidden="true">✓</div>
+    <h1>支出登録が完了しました</h1>
+    <p class="description">支出内容を受け付けました。</p>
+
+    <div class="actions">
+        <a class="button back-button" th:href="@{/}" href="/">ホームへ戻る</a>
+        <a class="button primary-button" th:href="@{/expenses}" href="/expenses">続けて支出を入力</a>
+    </div>
+</main>
+</body>
+</html>

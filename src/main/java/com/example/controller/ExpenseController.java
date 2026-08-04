@@ -27,7 +27,11 @@ public class ExpenseController {
             return "expenses";
         }
 
-        model.addAttribute("successMessage", "入力内容に問題はありません。");
-        return "expenses";
+        return "redirect:/expenses/complete";
+    }
+
+    @GetMapping("/expenses/complete")
+    public String showExpenseCompletePage() {
+        return "expense-complete";
     }
 }
