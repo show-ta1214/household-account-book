@@ -41,6 +41,24 @@
             margin-bottom: 22px;
         }
 
+        .error-message {
+            margin: 6px 0 0;
+            color: #b42318;
+            font-size: 0.9rem;
+        }
+
+        .success-message {
+            padding: 12px 14px;
+            margin: 0 0 24px;
+            color: #216e39;
+            background: #eaf7ee;
+            border-radius: 10px;
+        }
+
+        .has-error {
+            border-color: #b42318;
+        }
+
         label {
             display: block;
             margin-bottom: 8px;
@@ -113,16 +131,21 @@
 <main class="expense-card">
     <h1>支出入力</h1>
     <p class="description">支出の内容を入力してください。</p>
+    <p class="success-message" th:if="${successMessage}" th:text="${successMessage}"></p>
 
-    <form>
+    <form th:action="@{/expenses}" th:object="${expenseForm}" method="post">
         <div class="form-group">
             <label for="expense-date">支出日</label>
-            <input id="expense-date" name="expenseDate" type="date" required>
+            <input id="expense-date" th:field="*{expenseDate}" type="date" required
+                   th:classappend="${#fields.hasErrors('expenseDate')} ? 'has-error'">
+            <p class="error-message" th:if="${#fields.hasErrors('expenseDate')}"
+               th:errors="*{expenseDate}"></p>
         </div>
 
         <div class="form-group">
             <label for="category">カテゴリ</label>
-            <select id="category" name="category" required>
+            <select id="category" th:field="*{category}" required
+                    th:classappend="${#fields.hasErrors('category')} ? 'has-error'">
                 <option value="">選択してください</option>
                 <option value="food">食費</option>
                 <option value="daily">日用品</option>
@@ -131,21 +154,28 @@
                 <option value="entertainment">娯楽費</option>
                 <option value="other">その他</option>
             </select>
+            <p class="error-message" th:if="${#fields.hasErrors('category')}"
+               th:errors="*{category}"></p>
         </div>
 
         <div class="form-group">
             <label for="amount">金額（円）</label>
-            <input id="amount" name="amount" type="number" min="1" step="1" placeholder="例：1200" required>
+            <input id="amount" th:field="*{amount}" type="number" min="1" max="999999999" step="1"
+                   placeholder="例：1200" required th:classappend="${#fields.hasErrors('amount')} ? 'has-error'">
+            <p class="error-message" th:if="${#fields.hasErrors('amount')}"
+               th:errors="*{amount}"></p>
         </div>
 
         <div class="form-group">
             <label for="memo">メモ</label>
-            <textarea id="memo" name="memo" maxlength="200" placeholder="例：スーパーで食材を購入"></textarea>
+            <textarea id="memo" th:field="*{memo}" maxlength="200" placeholder="例：スーパーで食材を購入"
+                      th:classappend="${#fields.hasErrors('memo')} ? 'has-error'"></textarea>
+            <p class="error-message" th:if="${#fields.hasErrors('memo')}" th:errors="*{memo}"></p>
         </div>
 
         <div class="actions">
             <a class="button back-button" th:href="@{/}" href="/">ホームへ戻る</a>
-            <button class="button primary-button" type="button">支出を登録</button>
+            <button class="button primary-button" type="submit">入力内容を確認</button>
         </div>
     </form>
 </main>
