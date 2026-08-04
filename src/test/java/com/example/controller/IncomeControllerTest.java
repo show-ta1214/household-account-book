@@ -11,6 +11,7 @@ import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
@@ -46,14 +47,23 @@ class IncomeControllerTest {
     }
 
     @Test
-    void validIncomeDisplaysSuccessMessage() throws Exception {
+    void validIncomeRedirectsToCompletePage() throws Exception {
         mockMvc.perform(post("/income")
                         .param("incomeDate", "2026-08-04")
                         .param("category", "salary")
                         .param("amount", "250000")
                         .param("memo", "8月分給与"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/income/complete"));
+    }
+
+    @Test
+    void incomeCompleteDisplaysCompletionPage() throws Exception {
+        mockMvc.perform(get("/income/complete"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("income"))
-                .andExpect(content().string(containsString("入力内容に問題はありません。")));
+                .andExpect(view().name("income-complete"))
+                .andExpect(content().string(containsString("収入登録が完了しました")))
+                .andExpect(content().string(containsString("href=\"/income\"")))
+                .andExpect(content().string(containsString("href=\"/\"")));
     }
 }

@@ -27,7 +27,11 @@ public class IncomeController {
             return "income";
         }
 
-        model.addAttribute("successMessage", "入力内容に問題はありません。");
-        return "income";
+        return "redirect:/income/complete";
+    }
+
+    @GetMapping("/income/complete")
+    public String showIncomeCompletePage() {
+        return "income-complete";
     }
 }

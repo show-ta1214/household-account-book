@@ -113,6 +113,10 @@ body {
     font-weight: bold;
 }
 
+.income-page .completion-icon {
+    background: #3c9270;
+}
+
 .entry-page h1 {
     margin: 0 0 8px;
     font-size: 2rem;
