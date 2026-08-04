@@ -4,78 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>家計簿ホーム</title>
-    <style>
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            min-height: 100vh;
-            margin: 0;
-            display: grid;
-            place-items: center;
-            font-family: "Yu Gothic", "Meiryo", sans-serif;
-            color: #24332b;
-            background: #f4f7f2;
-        }
-
-        .home-card {
-            width: min(90%, 620px);
-            padding: 48px 36px;
-            text-align: center;
-            background: #ffffff;
-            border-radius: 20px;
-            box-shadow: 0 12px 32px rgba(36, 51, 43, 0.12);
-        }
-
-        h1 {
-            margin: 0 0 12px;
-            font-size: 2rem;
-        }
-
-        p {
-            margin: 0 0 36px;
-            color: #617066;
-        }
-
-        .menu {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 18px;
-        }
-
-        .menu-button {
-            display: block;
-            padding: 20px 12px;
-            border-radius: 12px;
-            color: #ffffff;
-            font-size: 1.1rem;
-            font-weight: bold;
-            text-decoration: none;
-            transition: transform 0.2s, opacity 0.2s;
-        }
-
-        .menu-button:hover {
-            transform: translateY(-2px);
-            opacity: 0.9;
-        }
-
-        .expense-button {
-            background: #dc6b5d;
-        }
-
-        .income-button {
-            background: #3c9270;
-        }
-
-        @media (max-width: 520px) {
-            .menu {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+    <link rel="stylesheet" th:href="@{/css/style.css}" href="/css/style.css">
 </head>
-<body>
+<body class="home-page">
 <main class="home-card">
     <h1>家計簿</h1>
     <p>登録する項目を選択してください</p>
