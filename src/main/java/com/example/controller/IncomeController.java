@@ -1,9 +1,9 @@
 package com.example.controller;
 
+import com.example.dao.IncomeDao;
 import com.example.dto.IncomeDto;
 import com.example.entity.Income;
 import com.example.form.IncomeForm;
-import com.example.repository.IncomeRepository;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,10 +16,10 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class IncomeController {
 
-    private final IncomeRepository incomeRepository;
+    private final IncomeDao incomeDao;
 
-    public IncomeController(IncomeRepository incomeRepository) {
-        this.incomeRepository = incomeRepository;
+    public IncomeController(IncomeDao incomeDao) {
+        this.incomeDao = incomeDao;
     }
 
     @GetMapping("/income")
@@ -42,7 +42,7 @@ public class IncomeController {
                 incomeForm.getCategory(),
                 incomeForm.getAmount(),
                 incomeForm.getMemo());
-        incomeRepository.save(new Income(
+        incomeDao.save(new Income(
                 incomeForm.getIncomeDate(),
                 incomeForm.getCategory(),
                 incomeForm.getAmount(),

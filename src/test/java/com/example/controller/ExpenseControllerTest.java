@@ -1,7 +1,7 @@
 package com.example.controller;
 
 import com.example.config.ApplicationBoot;
-import com.example.repository.ExpenseRepository;
+import com.example.dao.ExpenseDao;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,11 +27,11 @@ class ExpenseControllerTest {
     private MockMvc mockMvc;
 
     @Autowired
-    private ExpenseRepository expenseRepository;
+    private ExpenseDao expenseDao;
 
     @BeforeEach
     void clearExpenses() {
-        expenseRepository.deleteAll();
+        expenseDao.deleteAll();
     }
 
     @Test
@@ -73,7 +73,7 @@ class ExpenseControllerTest {
                         org.hamcrest.Matchers.hasProperty("memo", org.hamcrest.Matchers.is("スーパーで食材を購入")))))
                 .andExpect(redirectedUrl("/expenses/complete"));
 
-        assertThat(expenseRepository.findAll())
+        assertThat(expenseDao.findAll())
                 .singleElement()
                 .satisfies(expense -> {
                     assertThat(expense.getExpenseDate()).isEqualTo(java.time.LocalDate.of(2026, 8, 4));
