@@ -1,7 +1,9 @@
 package com.example.controller;
 
 import com.example.dto.ExpenseDto;
+import com.example.entity.Expense;
 import com.example.form.ExpenseForm;
+import com.example.repository.ExpenseRepository;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +15,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class ExpenseController {
+
+    private final ExpenseRepository expenseRepository;
+
+    public ExpenseController(ExpenseRepository expenseRepository) {
+        this.expenseRepository = expenseRepository;
+    }
 
     @GetMapping("/expenses")
     public String showExpensePage(Model model) {
@@ -34,6 +42,11 @@ public class ExpenseController {
                 expenseForm.getCategory(),
                 expenseForm.getAmount(),
                 expenseForm.getMemo());
+        expenseRepository.save(new Expense(
+                expenseForm.getExpenseDate(),
+                expenseForm.getCategory(),
+                expenseForm.getAmount(),
+                expenseForm.getMemo()));
         redirectAttributes.addFlashAttribute("expenseDto", expenseDto);
 
         return "redirect:/expenses/complete";

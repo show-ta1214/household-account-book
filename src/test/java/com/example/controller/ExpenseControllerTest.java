@@ -1,6 +1,8 @@
 package com.example.controller;
 
 import com.example.config.ApplicationBoot;
+import com.example.repository.ExpenseRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -8,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -22,6 +25,14 @@ class ExpenseControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    private ExpenseRepository expenseRepository;
+
+    @BeforeEach
+    void clearExpenses() {
+        expenseRepository.deleteAll();
+    }
 
     @Test
     void expensesDisplaysExpenseEntryPage() throws Exception {
@@ -61,6 +72,15 @@ class ExpenseControllerTest {
                         org.hamcrest.Matchers.hasProperty("amount", org.hamcrest.Matchers.is(1200)),
                         org.hamcrest.Matchers.hasProperty("memo", org.hamcrest.Matchers.is("スーパーで食材を購入")))))
                 .andExpect(redirectedUrl("/expenses/complete"));
+
+        assertThat(expenseRepository.findAll())
+                .singleElement()
+                .satisfies(expense -> {
+                    assertThat(expense.getExpenseDate()).isEqualTo(java.time.LocalDate.of(2026, 8, 4));
+                    assertThat(expense.getCategory()).isEqualTo("food");
+                    assertThat(expense.getAmount()).isEqualTo(1200);
+                    assertThat(expense.getMemo()).isEqualTo("スーパーで食材を購入");
+                });
     }
 
     @Test

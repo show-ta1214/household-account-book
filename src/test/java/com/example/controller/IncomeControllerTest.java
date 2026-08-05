@@ -1,6 +1,8 @@
 package com.example.controller;
 
 import com.example.config.ApplicationBoot;
+import com.example.repository.IncomeRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -8,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -22,6 +25,14 @@ class IncomeControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    private IncomeRepository incomeRepository;
+
+    @BeforeEach
+    void clearIncomes() {
+        incomeRepository.deleteAll();
+    }
 
     @Test
     void incomeDisplaysIncomeEntryPage() throws Exception {
@@ -61,6 +72,15 @@ class IncomeControllerTest {
                         org.hamcrest.Matchers.hasProperty("amount", org.hamcrest.Matchers.is(250000)),
                         org.hamcrest.Matchers.hasProperty("memo", org.hamcrest.Matchers.is("8月分給与")))))
                 .andExpect(redirectedUrl("/income/complete"));
+
+        assertThat(incomeRepository.findAll())
+                .singleElement()
+                .satisfies(income -> {
+                    assertThat(income.getIncomeDate()).isEqualTo(java.time.LocalDate.of(2026, 8, 4));
+                    assertThat(income.getCategory()).isEqualTo("salary");
+                    assertThat(income.getAmount()).isEqualTo(250000);
+                    assertThat(income.getMemo()).isEqualTo("8月分給与");
+                });
     }
 
     @Test
