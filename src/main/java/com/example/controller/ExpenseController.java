@@ -5,6 +5,8 @@ import com.example.dto.ExpenseDto;
 import com.example.entity.Expense;
 import com.example.form.ExpenseForm;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,6 +17,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class ExpenseController {
+
+    private static final Logger logger = LoggerFactory.getLogger(ExpenseController.class);
 
     private final ExpenseDao expenseDao;
 
@@ -42,11 +46,16 @@ public class ExpenseController {
                 expenseForm.getCategory(),
                 expenseForm.getAmount(),
                 expenseForm.getMemo());
-        expenseDao.save(new Expense(
-                expenseForm.getExpenseDate(),
-                expenseForm.getCategory(),
-                expenseForm.getAmount(),
-                expenseForm.getMemo()));
+        try {
+            expenseDao.save(new Expense(
+                    expenseForm.getExpenseDate(),
+                    expenseForm.getCategory(),
+                    expenseForm.getAmount(),
+                    expenseForm.getMemo()));
+        } catch (RuntimeException e) {
+            logger.error("支出データの登録中にエラーが発生しました。", e);
+            return "redirect:/registration-error";
+        }
         redirectAttributes.addFlashAttribute("expenseDto", expenseDto);
 
         return "redirect:/expenses/complete";
