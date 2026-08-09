@@ -58,4 +58,11 @@ public class Expense {
     public String getMemo() {
         return memo;
     }
+
+    public void update(LocalDate expenseDate, String category, Integer amount, String memo) {
+        this.expenseDate = expenseDate;
+        this.category = category;
+        this.amount = amount;
+        this.memo = memo;
+    }
 }

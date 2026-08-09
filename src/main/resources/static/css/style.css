@@ -234,6 +234,12 @@ th { color: #526158; background: #f5f8f6; white-space: nowrap; }
 .income-amount { color: #287454; }
 .expense-amount { color: #b84f43; }
 .empty-message { padding: 20px; margin: 0; color: #617066; text-align: center; background: #f5f8f6; border-radius: 10px; }
+.notice-message { padding: 12px 14px; margin: 0 0 24px; background: #fff1f0; border-radius: 10px; }
+.record-actions { display: flex; gap: 8px; white-space: nowrap; }
+.record-actions form { margin: 0; }
+.record-action { display: inline-block; padding: 7px 10px; border: 0; border-radius: 7px; font: inherit; font-size: 0.9rem; text-decoration: none; cursor: pointer; }
+.edit-action { color: #315568; background: #e5f0f5; }
+.delete-action { color: #a33e34; background: #fbe9e7; }
 
 @media (max-width: 520px) {
     .menu {

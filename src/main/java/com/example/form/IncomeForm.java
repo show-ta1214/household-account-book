@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
@@ -13,6 +14,7 @@ public class IncomeForm {
 
     @NotNull(message = "収入日を入力してください。")
     @PastOrPresent(message = "収入日は今日以前の日付を入力してください。")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate incomeDate;
 
     @NotBlank(message = "カテゴリーを選択してください。")
