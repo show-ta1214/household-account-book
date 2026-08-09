@@ -1,11 +1,12 @@
 package com.example.controller;
 
-import com.example.dao.ExpenseDao;
-import com.example.dao.IncomeDao;
 import com.example.entity.Expense;
 import com.example.entity.Income;
 import com.example.form.ExpenseForm;
 import com.example.form.IncomeForm;
+import com.example.service.ExpenseDao;
+import com.example.service.IncomeDao;
+
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

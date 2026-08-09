@@ -1,10 +1,11 @@
 package com.example.controller;
 
 import com.example.config.ApplicationBoot;
-import com.example.dao.ExpenseDao;
-import com.example.dao.IncomeDao;
 import com.example.entity.Expense;
 import com.example.entity.Income;
+import com.example.service.ExpenseDao;
+import com.example.service.IncomeDao;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

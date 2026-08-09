@@ -1,9 +1,10 @@
 package com.example.controller;
 
-import com.example.dao.IncomeDao;
 import com.example.dto.IncomeDto;
 import com.example.entity.Income;
 import com.example.form.IncomeForm;
+import com.example.service.IncomeDao;
+
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
