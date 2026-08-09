@@ -8,11 +8,11 @@
 </head>
 <body class="entry-page income-page">
 <main class="income-card">
-    <h1>収入入力</h1>
-    <p class="description">収入の内容を入力してください。</p>
+    <h1 th:text="${editMode} ? '収入を編集' : '収入入力'">収入入力</h1>
+    <p class="description" th:text="${editMode} ? '収入の内容を変更してください。' : '収入の内容を入力してください。'">収入の内容を入力してください。</p>
     <p class="success-message" th:if="${successMessage}" th:text="${successMessage}"></p>
 
-    <form th:action="@{/income}" th:object="${incomeForm}" method="post">
+    <form th:action="${editMode} ? @{/records/incomes/{id}/edit(id=${recordId})} : @{/income}" th:object="${incomeForm}" method="post">
         <div class="form-group">
             <label for="income-date">収入日</label>
             <input id="income-date" th:field="*{incomeDate}" type="date" required
@@ -52,8 +52,8 @@
         </div>
 
         <div class="actions">
-            <a class="button back-button" th:href="@{/}" href="/">ホームへ戻る</a>
-            <button class="button primary-button" type="submit">入力内容を確認</button>
+            <a class="button back-button" th:href="${editMode} ? @{/records} : @{/}" href="/">戻る</a>
+            <button class="button primary-button" type="submit" th:text="${editMode} ? '更新する' : '入力内容を確認'">入力内容を確認</button>
         </div>
     </form>
 </main>

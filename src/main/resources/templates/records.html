@@ -12,16 +12,24 @@
         <div><h1>登録一覧</h1><p class="description">登録した収入と支出を確認できます。</p></div>
         <a class="button back-button records-back-button" th:href="@{/}" href="/">ホームへ戻る</a>
     </div>
+    <p class="success-message" th:if="${successMessage}" th:text="${successMessage}"></p>
+    <p class="error-message notice-message" th:if="${errorMessage}" th:text="${errorMessage}"></p>
     <section class="record-section income-records" aria-labelledby="income-heading">
         <h2 id="income-heading">収入</h2>
         <p class="empty-message" th:if="${#lists.isEmpty(incomes)}">登録された収入はありません。</p>
         <div class="table-container" th:unless="${#lists.isEmpty(incomes)}">
-            <table><thead><tr><th>日付</th><th>カテゴリ</th><th>金額</th><th>メモ</th></tr></thead>
+            <table><thead><tr><th>日付</th><th>カテゴリ</th><th>金額</th><th>メモ</th><th>操作</th></tr></thead>
                 <tbody><tr th:each="income : ${incomes}">
                     <td th:text="${income.incomeDate}">2026-08-09</td>
                     <td th:switch="${income.category}"><span th:case="'salary'">給与</span><span th:case="'bonus'">賞与</span><span th:case="'side-job'">副業</span><span th:case="'investment'">投資</span><span th:case="'other'">その他</span><span th:case="*" th:text="${income.category}">カテゴリ</span></td>
                     <td class="amount income-amount" th:text="${#numbers.formatInteger(income.amount, 1, 'COMMA') + ' 円'}">250,000 円</td>
                     <td th:text="${#strings.isEmpty(income.memo) ? '-' : income.memo}">メモ</td>
+                    <td class="record-actions">
+                        <a class="record-action edit-action" th:href="@{/records/incomes/{id}/edit(id=${income.id})}">編集</a>
+                        <form th:action="@{/records/incomes/{id}/delete(id=${income.id})}" method="post" onsubmit="return confirm('この収入を削除しますか？');">
+                            <button class="record-action delete-action" type="submit">削除</button>
+                        </form>
+                    </td>
                 </tr></tbody></table>
         </div>
     </section>
@@ -29,12 +37,18 @@
         <h2 id="expense-heading">支出</h2>
         <p class="empty-message" th:if="${#lists.isEmpty(expenses)}">登録された支出はありません。</p>
         <div class="table-container" th:unless="${#lists.isEmpty(expenses)}">
-            <table><thead><tr><th>日付</th><th>カテゴリ</th><th>金額</th><th>メモ</th></tr></thead>
+            <table><thead><tr><th>日付</th><th>カテゴリ</th><th>金額</th><th>メモ</th><th>操作</th></tr></thead>
                 <tbody><tr th:each="expense : ${expenses}">
                     <td th:text="${expense.expenseDate}">2026-08-09</td>
                     <td th:switch="${expense.category}"><span th:case="'food'">食費</span><span th:case="'daily'">日用品</span><span th:case="'transportation'">交通費</span><span th:case="'utilities'">水道・光熱費</span><span th:case="'entertainment'">娯楽費</span><span th:case="'other'">その他</span><span th:case="*" th:text="${expense.category}">カテゴリ</span></td>
                     <td class="amount expense-amount" th:text="${#numbers.formatInteger(expense.amount, 1, 'COMMA') + ' 円'}">1,200 円</td>
                     <td th:text="${#strings.isEmpty(expense.memo) ? '-' : expense.memo}">メモ</td>
+                    <td class="record-actions">
+                        <a class="record-action edit-action" th:href="@{/records/expenses/{id}/edit(id=${expense.id})}">編集</a>
+                        <form th:action="@{/records/expenses/{id}/delete(id=${expense.id})}" method="post" onsubmit="return confirm('この支出を削除しますか？');">
+                            <button class="record-action delete-action" type="submit">削除</button>
+                        </form>
+                    </td>
                 </tr></tbody></table>
         </div>
     </section>
