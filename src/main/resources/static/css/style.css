@@ -66,6 +66,11 @@ body {
     background: #3c9270;
 }
 
+.records-button {
+    grid-column: 1 / -1;
+    background: #526b7a;
+}
+
 .entry-page {
     padding: 32px 16px;
 }
@@ -212,6 +217,24 @@ textarea {
     background: #e8ede9;
 }
 
+.records-page { padding: 32px 16px; }
+.records-card { width: min(100%, 960px); margin: 0 auto; padding: 40px 36px; background: #fff; border-radius: 20px; box-shadow: 0 12px 32px rgba(36, 51, 43, 0.12); }
+.records-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; }
+.records-heading h1 { margin: 0 0 8px; }
+.records-back-button { flex: none; }
+.record-section + .record-section { margin-top: 40px; }
+.record-section h2 { padding-bottom: 10px; margin: 0 0 16px; border-bottom: 3px solid; }
+.income-records h2 { border-color: #3c9270; }
+.expense-records h2 { border-color: #dc6b5d; }
+.table-container { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: 13px 12px; border-bottom: 1px solid #dce4de; text-align: left; vertical-align: top; }
+th { color: #526158; background: #f5f8f6; white-space: nowrap; }
+.amount { font-weight: bold; text-align: right; white-space: nowrap; }
+.income-amount { color: #287454; }
+.expense-amount { color: #b84f43; }
+.empty-message { padding: 20px; margin: 0; color: #617066; text-align: center; background: #f5f8f6; border-radius: 10px; }
+
 @media (max-width: 520px) {
     .menu {
         grid-template-columns: 1fr;
@@ -225,4 +248,8 @@ textarea {
     .actions {
         flex-direction: column;
     }
+
+    .records-card { padding: 32px 22px; }
+    .records-heading { flex-direction: column; }
+    .records-back-button { width: 100%; }
 }

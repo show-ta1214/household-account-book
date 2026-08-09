@@ -26,6 +26,7 @@ class HomeControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("home"))
                 .andExpect(content().string(containsString("href=\"/expenses\"")))
-                .andExpect(content().string(containsString("href=\"/income\"")));
+                .andExpect(content().string(containsString("href=\"/income\"")))
+                .andExpect(content().string(containsString("href=\"/records\"")));
     }
 }
