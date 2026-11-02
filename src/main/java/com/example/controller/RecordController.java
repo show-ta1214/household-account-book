@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.format.annotation.DateTimeFormat;
+import java.time.YearMonth;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -28,9 +31,25 @@ public class RecordController {
     }
 
     @GetMapping("/records")
-    public String showRecords(Model model) {
-        model.addAttribute("incomes", incomeDao.findAll());
-        model.addAttribute("expenses", expenseDao.findAll());
+    public String showRecords(@RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM") YearMonth month,
+                              Model model) {
+        YearMonth selectedMonth = month == null ? YearMonth.now() : month;
+        var incomes = incomeDao.findAll();
+        var expenses = expenseDao.findAll();
+        long incomeTotal = incomes.stream()
+                .filter(income -> YearMonth.from(income.getIncomeDate()).equals(selectedMonth))
+                .mapToLong(Income::getAmount).sum();
+        long expenseTotal = expenses.stream()
+                .filter(expense -> YearMonth.from(expense.getExpenseDate()).equals(selectedMonth))
+                .mapToLong(Expense::getAmount).sum();
+        long total = incomeTotal + expenseTotal;
+        model.addAttribute("incomes", incomes);
+        model.addAttribute("expenses", expenses);
+        model.addAttribute("selectedMonth", selectedMonth.toString());
+        model.addAttribute("incomeTotal", incomeTotal);
+        model.addAttribute("expenseTotal", expenseTotal);
+        model.addAttribute("hasMonthlyData", total > 0);
+        model.addAttribute("incomeAngle", total == 0 ? 0 : incomeTotal * 360.0 / total);
         return "records";
     }
 

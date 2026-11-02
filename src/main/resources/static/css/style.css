@@ -217,6 +217,20 @@ textarea {
     background: #e8ede9;
 }
 
+.monthly-summary { padding: 24px; margin-bottom: 32px; border: 1px solid #dce4de; border-radius: 12px; }
+.monthly-summary h2 { margin: 0 0 20px; }
+.month-filter { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-bottom: 16px; }
+.month-filter label { margin: 0; }
+.month-filter input { width: auto; max-width: 100%; }
+.month-filter .button { flex: none; }
+.monthly-chart-layout { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 28px; }
+.monthly-pie { width: 220px; max-width: 100%; aspect-ratio: 1; border-radius: 50%; }
+.monthly-totals { min-width: 160px; margin: 0; }
+.monthly-totals > div { margin: 16px 0; }
+.monthly-totals dd { margin: 6px 0 0 24px; font-size: 1.25rem; font-weight: bold; overflow-wrap: anywhere; }
+.chart-key { display: inline-block; width: 14px; height: 14px; margin-right: 10px; border-radius: 3px; }
+.income-key { background: #3c9270; }
+.expense-key { background: #dc6b5d; }
 .records-page { padding: 32px 16px; }
 .records-card { width: min(100%, 960px); margin: 0 auto; padding: 40px 36px; background: #fff; border-radius: 20px; box-shadow: 0 12px 32px rgba(36, 51, 43, 0.12); }
 .records-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; }

@@ -39,7 +39,7 @@
         <div class="form-group">
             <label for="amount">金額（円）</label>
             <input id="amount" th:field="*{amount}" type="number" min="1" max="999999999" step="1"
-                   placeholder="例：250000" required th:classappend="${#fields.hasErrors('amount')} ? 'has-error'">
+                   placeholder="例：250000" required onkeydown="if(['e', 'E', '+', '-'].includes(event.key)) event.preventDefault()"th:classappend="${#fields.hasErrors('amount')} ? 'has-error'">
             <p class="error-message" th:if="${#fields.hasErrors('amount')}"
                th:errors="*{amount}"></p>
         </div>

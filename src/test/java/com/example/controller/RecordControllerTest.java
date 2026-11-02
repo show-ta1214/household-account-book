@@ -36,6 +36,37 @@ class RecordControllerTest {
     }
 
     @Test
+    void monthlyChartUsesOnlySelectedMonthIncludingMonthBoundaries() throws Exception {
+        incomeDao.save(new Income(LocalDate.of(2026, 8, 1), "salary", 200000, null));
+        incomeDao.save(new Income(LocalDate.of(2026, 8, 31), "bonus", 100000, null));
+        incomeDao.save(new Income(LocalDate.of(2026, 7, 31), "salary", 900000, null));
+        expenseDao.save(new Expense(LocalDate.of(2026, 8, 31), "food", 100000, null));
+        expenseDao.save(new Expense(LocalDate.of(2026, 9, 1), "food", 500000, null));
+
+        mockMvc.perform(get("/records").param("month", "2026-08"))
+                .andExpect(status().isOk())
+                .andExpect(model().attribute("incomeTotal", 300000L))
+                .andExpect(model().attribute("expenseTotal", 100000L))
+                .andExpect(model().attribute("incomeAngle", 270.0))
+                .andExpect(content().string(containsString("conic-gradient(#3c9270 0deg 270.0deg")));
+    }
+
+    @Test
+    void monthlyChartHandlesEmptyMonthAndIncomeOnly() throws Exception {
+        mockMvc.perform(get("/records"))
+                .andExpect(status().isOk())
+                .andExpect(model().attribute("selectedMonth", java.time.YearMonth.now().toString()))
+                .andExpect(model().attribute("hasMonthlyData", false));
+        incomeDao.save(new Income(LocalDate.of(2026, 8, 1), "salary", 100, null));
+        mockMvc.perform(get("/records").param("month", "2026-08"))
+                .andExpect(status().isOk())
+                .andExpect(model().attribute("incomeAngle", 360.0))
+                .andExpect(model().attribute("hasMonthlyData", true));
+        mockMvc.perform(get("/records").param("month", "invalid"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     void recordsDisplaysEmptyMessages() throws Exception {
         mockMvc.perform(get("/records"))
                 .andExpect(status().isOk()).andExpect(view().name("records"))

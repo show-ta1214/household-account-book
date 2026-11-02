@@ -14,6 +14,25 @@
     </div>
     <p class="success-message" th:if="${successMessage}" th:text="${successMessage}"></p>
     <p class="error-message notice-message" th:if="${errorMessage}" th:text="${errorMessage}"></p>
+    <section class="monthly-summary" aria-labelledby="monthly-heading">
+        <h2 id="monthly-heading">月の収入・支出</h2>
+        <form class="month-filter" th:action="@{/records}" method="get">
+            <label for="month">対象月</label>
+            <input type="month" id="month" name="month" th:value="${selectedMonth}" required>
+            <button type="submit" class="button back-button">表示する</button>
+        </form>
+        <p class="description">選択した月の収入と支出の合計額の割合です。一覧には全期間の登録を表示しています。</p>
+        <div class="monthly-chart-layout">
+            <div class="monthly-pie" th:if="${hasMonthlyData}" role="img"
+                 th:aria-label="${selectedMonth + 'の収入 ' + incomeTotal + '円、支出 ' + expenseTotal + '円の割合'}"
+                 th:style="${'background: conic-gradient(#3c9270 0deg ' + incomeAngle + 'deg, #dc6b5d ' + incomeAngle + 'deg 360deg)'}"></div>
+            <p class="empty-message" th:unless="${hasMonthlyData}">この月の収入・支出はありません。</p>
+            <dl class="monthly-totals">
+                <div><dt><span class="chart-key income-key" aria-hidden="true"></span>収入</dt><dd class="income-amount" th:text="${#numbers.formatInteger(incomeTotal, 1, 'COMMA') + ' 円'}"></dd></div>
+                <div><dt><span class="chart-key expense-key" aria-hidden="true"></span>支出</dt><dd class="expense-amount" th:text="${#numbers.formatInteger(expenseTotal, 1, 'COMMA') + ' 円'}"></dd></div>
+            </dl>
+        </div>
+    </section>
     <section class="record-section income-records" aria-labelledby="income-heading">
         <h2 id="income-heading">収入</h2>
         <p class="empty-message" th:if="${#lists.isEmpty(incomes)}">登録された収入はありません。</p>
