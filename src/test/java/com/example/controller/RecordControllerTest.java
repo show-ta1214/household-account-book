@@ -36,6 +36,32 @@ class RecordControllerTest {
     }
 
     @Test
+    void monthlyCategoryTotalsCombineRecordsAndExcludeOtherMonths() throws Exception {
+        incomeDao.save(new Income(LocalDate.of(2026, 8, 1), "salary", 200000, null));
+        incomeDao.save(new Income(LocalDate.of(2026, 8, 31), "salary", 100000, null));
+        incomeDao.save(new Income(LocalDate.of(2026, 8, 15), "bonus", 50000, null));
+        incomeDao.save(new Income(LocalDate.of(2026, 7, 31), "salary", 900000, null));
+        expenseDao.save(new Expense(LocalDate.of(2026, 8, 1), "food", 1200, null));
+        expenseDao.save(new Expense(LocalDate.of(2026, 8, 31), "food", 800, null));
+        expenseDao.save(new Expense(LocalDate.of(2026, 8, 15), "daily", 500, null));
+        expenseDao.save(new Expense(LocalDate.of(2026, 9, 1), "food", 500000, null));
+
+        mockMvc.perform(get("/records").param("month", "2026-08"))
+                .andExpect(status().isOk())
+                .andExpect(model().attribute("incomeCategoryTotals", java.util.Map.of("salary", 300000L, "bonus", 50000L)))
+                .andExpect(model().attribute("expenseCategoryTotals", java.util.Map.of("food", 2000L, "daily", 500L)))
+                .andExpect(content().string(containsString("300,000 円")))
+                .andExpect(content().string(containsString("2,000 円")));
+
+        mockMvc.perform(get("/records").param("month", "2026-10"))
+                .andExpect(status().isOk())
+                .andExpect(model().attribute("incomeCategoryTotals", java.util.Map.of()))
+                .andExpect(model().attribute("expenseCategoryTotals", java.util.Map.of()))
+                .andExpect(content().string(containsString("この月の収入 はありません。")))
+                .andExpect(content().string(containsString("この月の支出 はありません。")));
+    }
+
+    @Test
     void monthlyChartUsesOnlySelectedMonthIncludingMonthBoundaries() throws Exception {
         incomeDao.save(new Income(LocalDate.of(2026, 8, 1), "salary", 200000, null));
         incomeDao.save(new Income(LocalDate.of(2026, 8, 31), "bonus", 100000, null));

@@ -32,6 +32,34 @@
                 <div><dt><span class="chart-key expense-key" aria-hidden="true"></span>支出</dt><dd class="expense-amount" th:text="${#numbers.formatInteger(expenseTotal, 1, 'COMMA') + ' 円'}"></dd></div>
             </dl>
         </div>
+        <div class="monthly-category-totals">
+            <section aria-labelledby="monthly-income-heading">
+                <h3 id="monthly-income-heading">収入 のカテゴリ別合計</h3>
+                <p class="empty-message" th:if="${#maps.isEmpty(incomeCategoryTotals)}">この月の収入 はありません。</p>
+                <div class="table-container" th:unless="${#maps.isEmpty(incomeCategoryTotals)}">
+                    <table>
+                        <thead><tr><th scope="col">カテゴリ</th><th scope="col" class="amount">合計金額</th></tr></thead>
+                        <tbody><tr th:each="categoryTotal : ${incomeCategoryTotals}">
+                            <td th:switch="${categoryTotal.key}"><span th:case="'salary'">給与</span><span th:case="'bonus'">賞与</span><span th:case="'side-job'">副業</span><span th:case="'investment'">投資</span><span th:case="'other'">その他</span><span th:case="*" th:text="${categoryTotal.key}">カテゴリ</span></td>
+                            <td class="amount income-amount" th:text="${#numbers.formatInteger(categoryTotal.value, 1, 'COMMA') + ' 円'}"></td>
+                        </tr></tbody>
+                    </table>
+                </div>
+            </section>
+            <section aria-labelledby="monthly-expense-heading">
+                <h3 id="monthly-expense-heading">支出 のカテゴリ別合計</h3>
+                <p class="empty-message" th:if="${#maps.isEmpty(expenseCategoryTotals)}">この月の支出 はありません。</p>
+                <div class="table-container" th:unless="${#maps.isEmpty(expenseCategoryTotals)}">
+                    <table>
+                        <thead><tr><th scope="col">カテゴリ</th><th scope="col" class="amount">合計金額</th></tr></thead>
+                        <tbody><tr th:each="categoryTotal : ${expenseCategoryTotals}">
+                            <td th:switch="${categoryTotal.key}"><span th:case="'food'">食費</span><span th:case="'daily'">日用品</span><span th:case="'transportation'">交通費</span><span th:case="'utilities'">水道・光熱費</span><span th:case="'entertainment'">娯楽費</span><span th:case="'other'">その他</span><span th:case="*" th:text="${categoryTotal.key}">カテゴリ</span></td>
+                            <td class="amount expense-amount" th:text="${#numbers.formatInteger(categoryTotal.value, 1, 'COMMA') + ' 円'}"></td>
+                        </tr></tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
     </section>
     <section class="record-section income-records" aria-labelledby="income-heading">
         <h2 id="income-heading">収入</h2>

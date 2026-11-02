@@ -273,3 +273,6 @@ th { color: #526158; background: #f5f8f6; white-space: nowrap; }
     .records-heading { flex-direction: column; }
     .records-back-button { width: 100%; }
 }
+
+.monthly-category-totals { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 24px; margin-top: 28px; }
+.monthly-category-totals h3 { margin: 0 0 12px; font-size: 1.05rem; }
